@@ -1,5 +1,5 @@
-# Cellurar texture generator
-Tihs program generate cekkurar texture. If you want to make your ctg [this is](https://blackpawn.com/texts/cellular/default.html) a good material to start.
+# Cellular texture generator
+Tihs program generate cellular texture. If you want to make your ctg [this is](https://blackpawn.com/texts/cellular/default.html) a good material to start.
 # Install by CMake
 | :exclamation:  You have to have [SFML](https://github.com/SFML/SFML)   |
 |-----------------------------------------|
