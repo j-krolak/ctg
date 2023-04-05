@@ -5,7 +5,7 @@
 using namespace std;
 
 CellularGenerator::CellularGenerator(Vector2i size):
-size{size}, rng{dev()}, rand{size.x > size.y ? size.x : size.y}
+size{size}, rng{dev()}, rand{max(size.x, size.y)}
 {
     values = new double [size.size()];
 }
@@ -25,11 +25,11 @@ double* CellularGenerator::generate(int pointsNum){
 
             for(auto p : points){
                 tmpDist = sqrt(pow(p.x-x,2)+pow(p.y-y,2));
-                dist = tmpDist < dist ? tmpDist : dist;
+                dist = min(dist, tmpDist);
             }
             
-            minDist = minDist > dist ? dist : minDist;
-            maxDist = maxDist < dist ? dist : maxDist;
+            minDist = min(minDist, dist);
+            maxDist = max(maxDist, dist);
 
             values[x + size.x * y] = dist;
         }
