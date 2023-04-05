@@ -1,20 +1,20 @@
-#include <CellurarGenerator.h>
+#include <CellularGenerator.h>
 #include <cmath>
 #include <iostream>
 
 using namespace std;
 
-CellurarGenerator::CellurarGenerator(Vector2i size):
+CellularGenerator::CellularGenerator(Vector2i size):
 size{size}, rng{dev()}, rand{size.x > size.y ? size.x : size.y}
 {
     values = new double [size.size()];
 }
 
-Vector2i CellurarGenerator::get_size(){
+Vector2i CellularGenerator::get_size(){
     return size;
 }
 
-double* CellurarGenerator::generate(int pointsNum){
+double* CellularGenerator::generate(int pointsNum){
     vector<Vector2i> points = generate_random_points(pointsNum);
 
     double minDist = INFINITY, maxDist = 0; 
@@ -47,7 +47,7 @@ double* CellurarGenerator::generate(int pointsNum){
     return values;
 }
 
-vector<Vector2i> CellurarGenerator::generate_random_points(int pointNum){
+vector<Vector2i> CellularGenerator::generate_random_points(int pointNum){
     vector<Vector2i> points;
 
     for(int i = 0; i < pointNum; i++)
@@ -56,11 +56,11 @@ vector<Vector2i> CellurarGenerator::generate_random_points(int pointNum){
     return points;
 }
 
-Vector2i CellurarGenerator::randomize_point(){
+Vector2i CellularGenerator::randomize_point(){
     return {rand(rng)%size.x, rand(rng)%size.y};
 }
 
-CellurarGenerator::~CellurarGenerator(){
+CellularGenerator::~CellularGenerator(){
     delete[] values;
 }
 

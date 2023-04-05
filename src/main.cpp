@@ -4,7 +4,7 @@
 #include <cstring>
 #include <cstdio>
 
-#include <CellurarGenerator.h>
+#include <CellularGenerator.h>
 
 using namespace std;
 
@@ -17,7 +17,7 @@ void display_help();
 int main(int argc, char** argv){
 
     int width=300, height=300, points=50; 
-    string output_file = "cellurarTex.png";
+    string output_file = "cellularTex.png";
     bool view = false;
 
     if(argc >= 2){
@@ -68,10 +68,10 @@ int main(int argc, char** argv){
 
     
     cout << "Generating...\n";
-    CellurarGenerator cellurarGen({width, height});
-    double* values = cellurarGen.generate(points);
+    CellularGenerator cellularGen({width, height});
+    double* values = cellularGen.generate(points);
     
-    sf::Uint8* cellurarTex = new sf::Uint8[width*height*4];
+    sf::Uint8* cellularTex = new sf::Uint8[width*height*4];
     
     sf::Texture texture;
     texture.create(width, height);
@@ -82,13 +82,13 @@ int main(int argc, char** argv){
 
     for(int i = 0; i < CELL_L; i += 4){
         sf::Uint8 val = static_cast<sf::Uint8>(values[i/4]*255);
-        cellurarTex[i] = val;
-        cellurarTex[i+1] = val;
-        cellurarTex[i+2] = val;
-        cellurarTex[i+3] = 255;
+        cellularTex[i] = val;
+        cellularTex[i+1] = val;
+        cellularTex[i+2] = val;
+        cellularTex[i+3] = 255;
     } 
 
-    texture.update(cellurarTex);
+    texture.update(cellularTex);
     texture.copyToImage().saveToFile(output_file);
     cout << "Done!\n";
 
@@ -96,7 +96,7 @@ int main(int argc, char** argv){
 
    
     if(view){
-        sf::RenderWindow window(sf::VideoMode(width, height), "Cellurar Texture Generator");
+        sf::RenderWindow window(sf::VideoMode(width, height), "cellular Texture Generator");
         sf::Sprite sprite{texture};
 
         while(window.isOpen()){
@@ -116,7 +116,7 @@ int main(int argc, char** argv){
 
 
 
-    delete [] cellurarTex;
+    delete [] cellularTex;
 
 
     return 0;

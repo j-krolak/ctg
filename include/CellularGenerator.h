@@ -11,12 +11,12 @@ struct Vector2i{
     }
 };
 
-class CellurarGenerator{
+class CellularGenerator{
 public:
-    CellurarGenerator(Vector2i size = {500, 500});
+    CellularGenerator(Vector2i size = {500, 500});
     Vector2i get_size();
     double* generate(int pointsNum=100);
-    ~CellurarGenerator(); 
+    ~CellularGenerator(); 
 private:
     double* values;
     Vector2i size;
