@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(cellular-texture-generator)
+project(ctg)
 
 include_directories(include)
 add_executable(${PROJECT_NAME} src/main.cpp src/CellurarGenerator.cpp)
