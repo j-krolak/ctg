@@ -15,6 +15,7 @@ Options:
     	-t <int>    	Type (0 - Simple, 1 - Tiled, 2 - Smooth) 
 	-v		View
 	--help	Display this information
+```
 # Example
 ```sh
 ./ctg -w 200 -h 300 -p 20 -v cellurar.png
