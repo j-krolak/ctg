@@ -1,6 +1,7 @@
 #include <CellularGenerator.h>
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -14,20 +15,34 @@ Vector2i CellularGenerator::get_size(){
     return size;
 }
 
-double* CellularGenerator::generate(int pointsNum){
+double* CellularGenerator::generate(int pointsNum, Type type, bool invert){
     vector<Vector2i> points = generate_random_points(pointsNum);
 
     double minDist = INFINITY, maxDist = 0; 
     for(int x = 0; x < size.x; x++){
         for(int y = 0; y < size.y; y++){
-            double dist = INFINITY;
-            double tmpDist;
+            vector<double> distBuffer;
+            double dist;
 
             for(auto p : points){
-                tmpDist = sqrt(pow(p.x-x,2)+pow(p.y-y,2));
-                dist = min(dist, tmpDist);
+                dist = sqrt(pow(p.x-x,2)+pow(p.y-y,2));
+                distBuffer.push_back(dist);
             }
             
+
+            sort(distBuffer.begin(), distBuffer.end());
+            switch(type){
+                case Type::Tiled:
+                    dist = distBuffer[1] - distBuffer[0];
+                    break;
+                case Type::Smooth:
+                    dist = distBuffer[1] * distBuffer[0];
+                    break;
+                default:
+                    dist = distBuffer[0];
+                    break;
+            }
+
             minDist = min(minDist, dist);
             maxDist = max(maxDist, dist);
 
@@ -41,6 +56,8 @@ double* CellularGenerator::generate(int pointsNum){
 
     for(int i = 0; i < size.size(); i++){
         values[i] = (values[i]-minDist)/(maxDist-minDist);
+        if(invert)
+            values[i] = 1 - values[i];
     }
 
 

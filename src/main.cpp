@@ -9,17 +9,16 @@
 using namespace std;
 
 
-#define CELL_L width*height*4
-
-
 void display_help();
 
 int main(int argc, char** argv){
 
     int width=300, height=300, points=50; 
     string output_file = "cellularTex.png";
-    bool view = false;
-
+    bool view = false, invert = false;
+    CellularGenerator::Type type = CellularGenerator::Type::Simple;
+    double intensity = 1;
+    
     if(argc >= 2){
         for(int i = 0; i < argc; i++){
             if(!strcmp(argv[i], "--help")){
@@ -56,6 +55,34 @@ int main(int argc, char** argv){
 
             }
 
+
+            if(!strcmp(argv[i], "-i")){
+                if(i + 1 < argc){
+                    intensity = stod(argv[i+1]);
+                }
+                continue;
+
+            }
+
+            if(!strcmp(argv[i], "-I")){
+                invert = true;
+                continue;
+
+            }
+
+
+            if(!strcmp(argv[i], "-t")){
+                if(i + 1 < argc){
+                    if(stoi(argv[i+1]) > 2){
+                        display_help();
+                        return 0;
+                    }
+                    type = static_cast<CellularGenerator::Type>(stoi(argv[i+1]));    
+                }
+                continue;
+
+            }
+
             if(i == argc-1){
                 output_file = argv[i];
             }
@@ -66,22 +93,18 @@ int main(int argc, char** argv){
         return 0;
     }
 
-    
+    const int image_size = width*height*4;
+
     cout << "Generating...\n";
     CellularGenerator cellularGen({width, height});
-    double* values = cellularGen.generate(points);
+    double* values = cellularGen.generate(points, type, invert);
     
     sf::Uint8* cellularTex = new sf::Uint8[width*height*4];
-    
     sf::Texture texture;
     texture.create(width, height);
 
-  
-
-    double intensity = 5.;
-
-    for(int i = 0; i < CELL_L; i += 4){
-        sf::Uint8 val = static_cast<sf::Uint8>(values[i/4]*255);
+    for(int i = 0; i < image_size; i += 4){
+        sf::Uint8 val = static_cast<sf::Uint8>(values[i/4]*255*intensity)%256;
         cellularTex[i] = val;
         cellularTex[i+1] = val;
         cellularTex[i+2] = val;
@@ -90,6 +113,7 @@ int main(int argc, char** argv){
 
     texture.update(cellularTex);
     texture.copyToImage().saveToFile(output_file);
+    
     cout << "Done!\n";
 
 
@@ -129,6 +153,9 @@ Options:
 	-w <int>	Width of texture
 	-h <int>	Height of texture
 	-p <int>	Number of points
+    	-i <double> 	Intensity
+    	-I		Invert
+    	-t <int>    	Type (0 - Simple, 1 - Tiled, 2 - Smooth) 
 	-v		View
 	--help	Display this information)" << endl;
 }

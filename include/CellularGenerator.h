@@ -13,9 +13,10 @@ struct Vector2i{
 
 class CellularGenerator{
 public:
+    enum class Type{Simple, Tiled, Smooth};
     CellularGenerator(Vector2i size = {500, 500});
     Vector2i get_size();
-    double* generate(int pointsNum=100);
+    double* generate(int pointsNum=100, Type type = Type::Simple, bool invert = false);
     ~CellularGenerator(); 
 private:
     double* values;
