@@ -1,5 +1,21 @@
 # Cellular texture generator
 Tihs program generate cellular texture. If you want to make your ctg [this is](https://blackpawn.com/texts/cellular/default.html) a good material to start.
+# Usage
+```sh
+./ctg --help
+```
+```
+Usage: ctg [options] output
+Options:
+	-w <int>	Width of texture
+	-h <int>	Height of texture
+	-p <int>	Number of points
+    	-i <double> 	Intensity
+    	-I		Invert
+    	-t <int>    	Type (0 - Simple, 1 - Tiled, 2 - Smooth) 
+	-v		View
+	--help	Display this information
+```
 # Example
 ```sh
 ./ctg -w 200 -h 300 -p 20 -v cellurar.png
